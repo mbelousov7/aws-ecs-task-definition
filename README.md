@@ -38,7 +38,7 @@ No requirements.
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 4.9.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | n/a |
 
 ## Modules
 
@@ -60,7 +60,7 @@ No modules.
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_aws_region"></a> [aws\_region](#input\_aws\_region) | aws region for logs configuration | `string` | n/a | yes |
-| <a name="input_cloudwatch_log_group"></a> [cloudwatch\_log\_group](#input\_cloudwatch\_log\_group) | optionally define a custom value for the name and tag=Name parameter<br>in aws\_cloudwatch\_log\_group. By default, it is defined as a construction from var.labels | `string` | `"default"` | no |
+| <a name="input_cloudwatch_log_group_name"></a> [cloudwatch\_log\_group\_name](#input\_cloudwatch\_log\_group\_name) | optionally define a custom value for the name and tag=Name parameter<br>in aws\_cloudwatch\_log\_group. By default, it is defined as a construction from var.labels | `string` | `"default"` | no |
 | <a name="input_command"></a> [command](#input\_command) | The command that is passed to the container | `list(string)` | `null` | no |
 | <a name="input_container_cpu"></a> [container\_cpu](#input\_container\_cpu) | The number of cpu units to reserve for the container. This is optional for tasks using Fargate launch type and the total amount of container\_cpu of all containers in a task will need to be lower than the task-level cpu value | `number` | `0` | no |
 | <a name="input_container_definition"></a> [container\_definition](#input\_container\_definition) | Container definition overrides which allows for extra keys or overriding existing keys. | `map(any)` | `{}` | no |
@@ -79,9 +79,9 @@ No modules.
 | <a name="input_readonly_root_filesystem"></a> [readonly\_root\_filesystem](#input\_readonly\_root\_filesystem) | Determines whether a container is given read-only access to its root filesystem. Due to how Terraform type casts booleans in json it is required to double quote this value | `bool` | `false` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | Additional tags | `map(string)` | `{}` | no |
 | <a name="input_task_cpu"></a> [task\_cpu](#input\_task\_cpu) | The number of CPU units used by the task. If using `FARGATE` launch type `task_cpu` must match [supported memory values](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_definition_parameters.html#task_size) | `number` | `256` | no |
-| <a name="input_task_iam_role"></a> [task\_iam\_role](#input\_task\_iam\_role) | optionally define a custom value for the task iam role name and tag=Name parameter<br>in aws\_iam\_role. By default, it is defined as a construction from var.labels | `string` | `"default"` | no |
+| <a name="input_task_iam_role_name"></a> [task\_iam\_role\_name](#input\_task\_iam\_role\_name) | optionally define a custom value for the task iam role name and tag=Name parameter<br>in aws\_iam\_role. By default, it is defined as a construction from var.labels | `string` | `"default"` | no |
 | <a name="input_task_memory"></a> [task\_memory](#input\_task\_memory) | The amount of memory (in MiB) used by the task. If using Fargate launch type `task_memory` must match [supported cpu value](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_definition_parameters.html#task_size) | `number` | `512` | no |
-| <a name="input_task_name"></a> [task\_name](#input\_task\_name) | optionally define a custom value for the task family and tag=Name parameter<br>in aws\_ecs\_task\_definition. By default, it is defined as a construction from var.labels | `string` | `"default"` | no |
+| <a name="input_task_name"></a> [task\_name](#input\_task\_name) | optionally define a custom value for the task family and tag=Name parameter<br>in aws\_cloudwatch\_event\_rule. By default, it is defined as a construction from var.labels | `string` | `"default"` | no |
 | <a name="input_task_network_mode"></a> [task\_network\_mode](#input\_task\_network\_mode) | The network mode to use for the task. This is required to be `awsvpc` for `FARGATE` `launch_type` or `null` for `EC2` `launch_type` | `string` | `"awsvpc"` | no |
 | <a name="input_task_role_policy_arns"></a> [task\_role\_policy\_arns](#input\_task\_role\_policy\_arns) | A list of IAM Policy ARNs to attach to the generated task role. | `list(string)` | `[]` | no |
 | <a name="input_task_role_policy_statements"></a> [task\_role\_policy\_statements](#input\_task\_role\_policy\_statements) | A `map` of zero or multiple role policies statements <br>which will be attached to task role(in addition to default) | `map(any)` | `{}` | no |
