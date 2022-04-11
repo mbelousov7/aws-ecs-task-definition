@@ -1,8 +1,8 @@
 locals {
 
-  task_iam_role = var.task_iam_role == "default" ? (
+  task_iam_role_name = var.task_iam_role_name == "default" ? (
     "${var.labels.prefix}-${var.labels.stack}-${var.labels.component}-task-iam-role-${var.labels.env}"
-  ) : var.task_iam_role
+  ) : var.task_iam_role_name
 
 }
 
@@ -20,19 +20,19 @@ data "aws_iam_policy_document" "task_iam" {
 }
 
 resource "aws_iam_role" "task_iam_role" {
-  name                 = local.task_iam_role
+  name                 = local.task_iam_role_name
   assume_role_policy   = join("", data.aws_iam_policy_document.task_iam.*.json)
   permissions_boundary = var.permissions_boundary == "" ? null : var.permissions_boundary
   tags = merge(
     var.labels,
     var.tags,
-    { Name = local.task_iam_role }
+    { Name = local.task_iam_role_name }
   )
 }
 
 resource "aws_iam_role_policy" "task_iam_role" {
   for_each = var.task_role_policy_statements
-  name     = "${local.task_iam_role}-${each.key}"
+  name     = "${local.task_iam_role_name}-${each.key}"
   role     = aws_iam_role.task_iam_role.id
   policy = jsonencode({
     Version   = "2012-10-17"

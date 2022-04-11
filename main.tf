@@ -4,9 +4,9 @@ locals {
     "${var.labels.prefix}-${var.labels.stack}-${var.labels.component}-task-${var.labels.env}"
   ) : var.task_name
 
-  cloudwatch_log_group = var.cloudwatch_log_group == "default" ? (
+  cloudwatch_log_group_name = var.cloudwatch_log_group_name == "default" ? (
     "${var.labels.prefix}-${var.labels.stack}-${var.labels.component}-log-group-${var.labels.env}"
-  ) : var.cloudwatch_log_group
+  ) : var.cloudwatch_log_group_name
 
   log_configuration = var.log_configuration ? {
     logDriver = "awslogs",
@@ -42,12 +42,12 @@ locals {
 }
 
 resource "aws_cloudwatch_log_group" "default" {
-  name              = "/fargate/${local.cloudwatch_log_group}"
+  name              = "/fargate/${local.cloudwatch_log_group_name}"
   retention_in_days = 30
   tags = merge(
     var.labels,
     var.tags,
-    { Name = local.cloudwatch_log_group }
+    { Name = local.cloudwatch_log_group_name }
   )
 }
 

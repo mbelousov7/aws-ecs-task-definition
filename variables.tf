@@ -20,12 +20,10 @@ variable "task_name" {
   type        = string
   description = <<-EOT
       optionally define a custom value for the task family and tag=Name parameter
-      in aws_ecs_task_definition. By default, it is defined as a construction from var.labels
+      in aws_cloudwatch_event_rule. By default, it is defined as a construction from var.labels
     EOT
   default     = "default"
 }
-
-
 
 variable "fargatetd_ecs_cluster_name" {
   type        = string
@@ -36,7 +34,16 @@ variable "fargatetd_ecs_cluster_name" {
   default     = "default"
 }
 
-variable "cloudwatch_log_group" {
+variable "task_iam_role_name" {
+  type        = string
+  description = <<-EOT
+      optionally define a custom value for the task iam role name and tag=Name parameter
+      in aws_iam_role. By default, it is defined as a construction from var.labels
+    EOT
+  default     = "default"
+}
+
+variable "cloudwatch_log_group_name" {
   type        = string
   description = <<-EOT
       optionally define a custom value for the name and tag=Name parameter
@@ -45,14 +52,6 @@ variable "cloudwatch_log_group" {
   default     = "default"
 }
 
-variable "task_iam_role" {
-  type        = string
-  description = <<-EOT
-      optionally define a custom value for the task iam role name and tag=Name parameter
-      in aws_iam_role. By default, it is defined as a construction from var.labels
-    EOT
-  default     = "default"
-}
 
 
 
