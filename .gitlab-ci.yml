@@ -1,0 +1,27 @@
+image:
+  name: registry.gitlab.com/gitlab-org/terraform-images/releases/terraform:1.0.3
+
+variables:
+  TF_EXAMPLE: ${CI_PROJECT_DIR}/examples/test  # The relative path to the root directory of the Terraform project
+  TF_VAR_env: dev
+
+
+stages:          # List of stages for jobs, and their order of execution
+  - validate
+
+validate-module: 
+  stage: validate
+  script:
+    - terraform init -backend=false
+    - echo 'Validating Terraform files'
+    - terraform validate
+
+validate-example: 
+  stage: validate
+  script:
+    - cd ${TF_EXAMPLE}
+    - terraform init -backend=false
+    - echo 'Validating Terraform files'
+    - terraform validate
+    - echo 'Validating Terraform test plan'
+    - terraform plan -var-file env/${TF_VAR_env}.tfvars
