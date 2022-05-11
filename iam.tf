@@ -6,12 +6,11 @@ locals {
 
 }
 
-# IAM role that the Amazon ECS container agent and the Docker daemon can assume
+# IAM roles that the Amazon ECS container agent and the Docker daemon can assume
 data "aws_iam_policy_document" "task_iam" {
   statement {
     effect  = "Allow"
     actions = ["sts:AssumeRole"]
-
     principals {
       type        = "Service"
       identifiers = ["ecs-tasks.amazonaws.com"]
@@ -28,6 +27,25 @@ resource "aws_iam_role" "task_iam_role" {
     var.tags,
     { Name = local.task_iam_role_name }
   )
+}
+
+resource "aws_iam_role_policy" "task_iam_role_logging" {
+  name = "${local.task_iam_role_name}-logging"
+  role = aws_iam_role.task_iam_role.id
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action = [
+          "logs:CreateLogGroup",
+          "logs:CreateLogStream",
+          "logs:PutLogEvents"
+        ]
+        Effect   = "Allow"
+        Resource = "${aws_cloudwatch_log_group.default.arn}:*"
+      },
+    ]
+  })
 }
 
 resource "aws_iam_role_policy" "task_iam_role" {

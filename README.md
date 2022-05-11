@@ -1,21 +1,20 @@
+# tf-aws-ecs-tsk-definition
 Terraform module to create AWS ECS task definition.
 
-terrafrom config example:
+terrafrom module config example:
 
 ```
-module "fargatetd_ecs_task_definition" {
+module "test_ecs_task_definition" {
   source                      = "../../"
   aws_region                  = var.region
-  container_name              = var.fargate_task_scheduled.container_name
-  container_image             = var.fargate_task_scheduled.container_image
-  task_cpu                    = var.fargate_task_scheduled.task_cpu
-  task_memory                 = var.fargate_task_scheduled.task_memory
-  task_role_policy_arns       = var.cloudteam_policy_arns
-  task_role_policy_statements = var.task_role_policy_statements
-  labels = merge(
-    { component = "componentName" },
-    var.labels
-  )
+  container_name              = var.componentName_fargate_task.container_name
+  container_image             = var.componentName_fargate_task.container_image
+  task_cpu                    = var.componentName_fargate_task.task_cpu
+  task_memory                 = var.componentName_fargate_task.task_memory
+  environment                 = local.componentName_fargate_task_container_environment
+  task_role_policy_arns       = local.cloudteam_policy_arns
+  task_role_policy_statements = var.componentName_task_role_policy_statements
+  labels                      = local.componentName_labels
 }
 ```
 more info see [examples/test](examples/test)
@@ -24,10 +23,14 @@ more info see [examples/test](examples/test)
 terraform run example
 ```
 cd examples/test
+export TF_VAR_ENV="exampletest"
 terraform init
-terraform plan -var-file env/dev.tfvars
+terraform plan
 ``` 
 
+Terraform versions tested
+- 0.15.3
+- 1.1.8
 
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
