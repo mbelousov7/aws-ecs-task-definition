@@ -25,6 +25,7 @@ variable "task_name" {
   default     = "default"
 }
 
+/*
 variable "fargatetd_ecs_cluster_name" {
   type        = string
   description = <<-EOT
@@ -33,6 +34,8 @@ variable "fargatetd_ecs_cluster_name" {
     EOT
   default     = "default"
 }
+*/
+
 
 variable "task_iam_role_name" {
   type        = string
@@ -109,6 +112,8 @@ variable "task_memory" {
   default     = 512
 }
 
+
+
 ######################################## container definition vars ########################################
 variable "container_definition" {
   type        = map(any)
@@ -142,6 +147,24 @@ variable "container_memory" {
   type        = number
   description = "The amount of memory (in MiB) to allow the container to use. This is a hard limit, if the container attempts to exceed the container_memory, the container is killed. This field is optional for Fargate launch type and the total amount of container_memory of all containers in a task will need to be lower than the task memory value"
   default     = null
+}
+
+variable "port_mappings" {
+  type = list(object({
+    containerPort = number
+    hostPort      = number
+    protocol      = string
+  }))
+
+  description = <<-EOT
+      The port mappings to configure for the container. This is a list of maps.
+      Each map should contain \"containerPort\", \"hostPort\", and \"protocol\",
+      where \"protocol\" is one of \"tcp\" or \"udp\".
+      If using containers in a task with the awsvpc or host network mode,
+      the hostPort can either be left blank or set to the same value as the containerPort
+    EOT
+
+  default = []
 }
 
 variable "log_configuration" {

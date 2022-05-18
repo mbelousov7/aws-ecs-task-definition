@@ -22,6 +22,7 @@ locals {
     essential              = var.essential
     cpu                    = var.container_cpu
     memory                 = var.container_memory
+    portMappings           = var.port_mappings
     logConfiguration       = local.log_configuration
     environment            = var.environment
     entryPoint             = var.entrypoint
