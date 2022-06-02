@@ -11,7 +11,7 @@ variable "ENV" {
 # in example using dev account
 variable "account_number" {
   type    = string
-  default = "942358500784"
+  default = "12345678910"
 }
 
 variable "region" {
@@ -21,7 +21,7 @@ variable "region" {
 
 variable "labels" {
   default = {
-    prefix = "a204558"
+    prefix = "myproject"
     stack  = "stackName"
   }
 }
@@ -71,7 +71,7 @@ variable "task_role_policy_statements" {
 }
 
 variable "cloudteam_policy_names" {
-  default = ["a204161-service-policy-global-deny-1", "a204161-service-policy-global-deny-2"]
+  default = ["cloud-service-policy-global-deny-1", "cloud-service-policy-global-deny-2"]
 }
 
 # <ENV>.tfvars end

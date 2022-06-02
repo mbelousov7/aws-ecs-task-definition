@@ -25,18 +25,6 @@ variable "task_name" {
   default     = "default"
 }
 
-/*
-variable "fargatetd_ecs_cluster_name" {
-  type        = string
-  description = <<-EOT
-      optionally define a custom value for the name and tag=Name parameter
-      in aws_cloudwatch_log_group. By default, it is defined as a construction from var.labels
-    EOT
-  default     = "default"
-}
-*/
-
-
 variable "task_iam_role_name" {
   type        = string
   description = <<-EOT
@@ -45,12 +33,14 @@ variable "task_iam_role_name" {
     EOT
   default     = "default"
 }
+*/
+
 
 variable "cloudwatch_log_group_name" {
   type        = string
   description = <<-EOT
-      optionally define a custom value for the name and tag=Name parameter
-      in aws_cloudwatch_log_group. By default, it is defined as a construction from var.labels
+      optionally define a custom value for the task iam role name and tag=Name parameter
+      in aws_iam_role. By default, it is defined as a construction from var.labels
     EOT
   default     = "default"
 }
@@ -58,7 +48,15 @@ variable "cloudwatch_log_group_name" {
 
 
 
+
 ######################################## iam roles and policies vars ########################################
+variable "task_role_policy_arns_default" {
+  description = "default arns list for task"
+  default = [
+    "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
+  ]
+}
+
 variable "task_role_policy_arns" {
   type        = list(string)
   description = "A list of IAM Policy ARNs to attach to the generated task role."
@@ -123,7 +121,11 @@ variable "container_definition" {
 
 variable "container_name" {
   type        = string
-  description = "The name of the container. Up to 255 characters ([a-z], [A-Z], [0-9], -, _ allowed)"
+  description = <<-EOT
+      optionally define a custom value for the container name parameter(Up to 255 characters ([a-z], [A-Z], [0-9], -, _ allowed)
+      By default, it is defined as a construction from var.labels
+    EOT
+  default     = "default"
 }
 
 variable "container_image" {
