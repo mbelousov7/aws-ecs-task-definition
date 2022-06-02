@@ -29,6 +29,12 @@ resource "aws_iam_role" "task_iam_role" {
   )
 }
 
+resource "aws_iam_role_policy_attachment" "task_iam_role_default" {
+  for_each   = toset(var.task_role_policy_arns_default)
+  role       = aws_iam_role.task_iam_role.name
+  policy_arn = each.key
+}
+
 resource "aws_iam_role_policy" "task_iam_role_logging" {
   name = "${local.task_iam_role_name}-logging"
   role = aws_iam_role.task_iam_role.id

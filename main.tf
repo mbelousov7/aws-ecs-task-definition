@@ -1,5 +1,9 @@
 locals {
 
+  container_name = var.container_name == "default" ? (
+    "${var.labels.prefix}-${var.labels.stack}-${var.labels.component}-${var.labels.env}"
+  ) : var.container_name
+
   task_name = var.task_name == "default" ? (
     "${var.labels.prefix}-${var.labels.stack}-${var.labels.component}-task-${var.labels.env}"
   ) : var.task_name
@@ -17,7 +21,7 @@ locals {
   } } : null
 
   container_definition = {
-    name                   = var.container_name
+    name                   = local.container_name
     image                  = var.container_image
     essential              = var.essential
     cpu                    = var.container_cpu
