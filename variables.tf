@@ -33,18 +33,15 @@ variable "task_iam_role_name" {
     EOT
   default     = "default"
 }
-*/
-
 
 variable "cloudwatch_log_group_name" {
   type        = string
   description = <<-EOT
-      optionally define a custom value for the task iam role name and tag=Name parameter
-      in aws_iam_role. By default, it is defined as a construction from var.labels
+      optionally define a custom value for the name and tag=Name parameter
+      in aws_cloudwatch_log_group. By default, it is defined as a construction from var.labels
     EOT
   default     = "default"
 }
-
 
 
 
