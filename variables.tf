@@ -9,7 +9,6 @@ variable "labels" {
   description = "Minimum required map of labels(tags) for creating aws resources"
 }
 
-
 variable "tags" {
   type        = map(string)
   description = "Additional tags"
