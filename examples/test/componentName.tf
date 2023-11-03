@@ -111,6 +111,7 @@ locals {
 module "test_ecs_task_definition" {
   source                      = "../../"
   aws_region                  = var.region
+  aws_account_number          = var.account_number
   container_name              = var.container_name
   container_image             = var.container_image
   task_cpu                    = var.task_cpu

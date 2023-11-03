@@ -7,14 +7,15 @@ terrafrom module config example:
 module "test_ecs_task_definition" {
   source                      = "../../"
   aws_region                  = var.region
-  container_name              = var.componentName_fargate_task.container_name
-  container_image             = var.componentName_fargate_task.container_image
-  task_cpu                    = var.componentName_fargate_task.task_cpu
-  task_memory                 = var.componentName_fargate_task.task_memory
-  environment                 = local.componentName_fargate_task_container_environment
+  aws_account_number          = var.account_number
+  container_name              = var.container_name
+  container_image             = var.container_image
+  task_cpu                    = var.task_cpu
+  task_memory                 = var.task_memory
+  environment                 = local.container_environment
   task_role_policy_arns       = local.cloudteam_policy_arns
-  task_role_policy_statements = var.componentName_task_role_policy_statements
-  labels                      = local.componentName_labels
+  task_role_policy_statements = var.task_role_policy_statements
+  labels                      = local.labels
 }
 ```
 more info see [examples/test](examples/test)
@@ -52,6 +53,7 @@ No modules.
 | [aws_iam_role.task_iam_role](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
 | [aws_iam_role_policy.task_iam_role](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy) | resource |
 | [aws_iam_role_policy.task_iam_role_logging](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy) | resource |
+| [aws_iam_role_policy.task_iam_role_sfn](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy) | resource |
 | [aws_iam_role_policy_attachment.task_iam_role](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource |
 | [aws_iam_role_policy_attachment.task_iam_role_default](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource |
 | [aws_iam_policy_document.task_iam](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
@@ -60,6 +62,7 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
+| <a name="input_aws_account_number"></a> [aws\_account\_number](#input\_aws\_account\_number) | aws sfn account number | `string` | n/a | yes |
 | <a name="input_aws_region"></a> [aws\_region](#input\_aws\_region) | aws region for logs configuration | `string` | n/a | yes |
 | <a name="input_cloudwatch_log_group_name"></a> [cloudwatch\_log\_group\_name](#input\_cloudwatch\_log\_group\_name) | optionally define a custom value for the name and tag=Name parameter<br>in aws\_cloudwatch\_log\_group. By default, it is defined as a construction from var.labels | `string` | `"default"` | no |
 | <a name="input_command"></a> [command](#input\_command) | The command that is passed to the container | `list(string)` | `null` | no |
@@ -74,6 +77,7 @@ No modules.
 | <a name="input_labels"></a> [labels](#input\_labels) | Minimum required map of labels(tags) for creating aws resources | <pre>object({<br>    prefix    = string<br>    stack     = string<br>    component = string<br>    env       = string<br>  })</pre> | n/a | yes |
 | <a name="input_launch_type"></a> [launch\_type](#input\_launch\_type) | The launch type on which to run your service. Valid values are `EC2` and `FARGATE` | `string` | `"FARGATE"` | no |
 | <a name="input_log_configuration"></a> [log\_configuration](#input\_log\_configuration) | Log configuration option | `bool` | `true` | no |
+| <a name="input_log_retention_in_days"></a> [log\_retention\_in\_days](#input\_log\_retention\_in\_days) | aws log group retention in days option | `number` | `30` | no |
 | <a name="input_mount_points"></a> [mount\_points](#input\_mount\_points) | Container mount points. This is a list of maps, where each map should contain `containerPath`, `sourceVolume` and `readOnly` | <pre>list(object({<br>    containerPath = string<br>    sourceVolume  = string<br>    readOnly      = bool<br>  }))</pre> | `[]` | no |
 | <a name="input_permissions_boundary"></a> [permissions\_boundary](#input\_permissions\_boundary) | A permissions boundary ARN to apply to the roles that are created. | `string` | `""` | no |
 | <a name="input_port_mappings"></a> [port\_mappings](#input\_port\_mappings) | The port mappings to configure for the container. This is a list of maps.<br>Each map should contain \"containerPort\", \"hostPort\", and \"protocol\",<br>where \"protocol\" is one of \"tcp\" or \"udp\".<br>If using containers in a task with the awsvpc or host network mode,<br>the hostPort can either be left blank or set to the same value as the containerPort | <pre>list(object({<br>    containerPort = number<br>    hostPort      = number<br>    protocol      = string<br>  }))</pre> | `[]` | no |

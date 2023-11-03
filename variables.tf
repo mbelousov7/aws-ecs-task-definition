@@ -9,6 +9,7 @@ variable "labels" {
   description = "Minimum required map of labels(tags) for creating aws resources"
 }
 
+
 variable "tags" {
   type        = map(string)
   description = "Additional tags"
@@ -80,6 +81,11 @@ variable "permissions_boundary" {
 variable "aws_region" {
   type        = string
   description = "aws region for logs configuration"
+}
+
+variable "aws_account_number" {
+  type        = string
+  description = "aws sfn account number"
 }
 
 variable "launch_type" {
@@ -169,6 +175,13 @@ variable "log_configuration" {
   description = "Log configuration option"
   default     = true
 }
+
+variable "log_retention_in_days" {
+  description = "aws log group retention in days option"
+  default     = 30
+}
+
+
 
 variable "environment" {
   type = list(object({
